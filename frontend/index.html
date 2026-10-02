@@ -11,41 +11,29 @@
   <main class="todo">
     <h1 class="todo__title">To-do</h1>
     <form class="todo__form">
-      <input class="todo__input" type="text" placeholder="What needs to be done?">
-      <button class="todo__add" type="submit">Add</button>
+      <input class="todo__input todo-ip" type="text" id="inp-td" placeholder="What needs to be done?">
+      <button class="todo__add todo-ip" type="submit" id="sub-ad">Add</button>
     </form>
     <div class="todo__controls">
     <div>
-      <input class="todo__checkbox" type="checkbox" id="ch" disabled>
+      <input class="todo__checkbox todo-ip" type="checkbox" id="ch" disabled>
       <label for="ch">Select all</label></div>
-      <button class="todo__delete" type="button" disabled>
+      <button class="todo__delete todo-ip" type="button" disabled>
         Delete completed
       </button>
     </div>
     <section class="todo__columns">
-      <div class="todo__column">
-        <h2 class="todo__column-title">All</h2>
-        <div class="todo__list">
-        </div>
-      </div>
-      <div class="todo__column">
-        <h2 class="todo__column-title">Active</h2>
-        <div class="todo__list">
-        </div>
-      </div>
-      <div class="todo__column">
-        <h2 class="todo__column-title">Completed</h2>
-        <div class="todo__list">
-        </div>
-      </div>
+        <button class="todo__column-title todo-ip" disabled>All</button>
+        <button class="todo__column-title todo-ip" disabled>Active</button>
+        <button class="todo__column-title todo-ip" disabled>Complete</button>
     </section>
-    <nav class="todo__pagination" aria-label="Pagination">
-      <a class="todo__page todo__page--disabled" href="#"><</a>
-      <a class="todo__page todo__page--active" href="#">1</a>
-      <a class="todo__page" href="#">2</a>
-      <a class="todo__page" href="#">3</a>
-      <a class="todo__page" href="#">></a>
-    </nav>
+    <!-- <nav class="todo__pagination" aria-label="Pagination">
+      <a class="todo__page todo__page--disabled todo-ip" href="#"><</a>
+      <a class="todo__page todo__page--active todo-ip" href="#">1</a>
+      <a class="todo__page todo-ip" href="#">2</a>
+      <a class="todo__page todo-ip" href="#">3</a>
+      <a class="todo__page todo-ip" href="#">></a>
+    </nav> -->
   </main>
   <script src="./main.js"></script>
 </body>
