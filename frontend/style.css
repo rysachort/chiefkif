@@ -115,10 +115,19 @@
     }
 
     .todo__item {
-      padding: 12px;
-      border: 1px solid #eee;
-      border-radius: 6px;
-      background: #fafafa;
+      padding: 15px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .todo__task-delete{
+      display: flex;
+      background-color: #88888857;
+      padding: 5px;
+      border-radius: 10px;
+      color: #d3d2d2;
     }
 
     .todo__pagination {
