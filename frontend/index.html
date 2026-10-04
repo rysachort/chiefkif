@@ -16,17 +16,20 @@
     </form>
     <div class="todo__controls">
     <div>
-      <input class="todo__checkbox todo-ip" type="checkbox" id="ch" disabled>
-      <label for="ch">Select all</label></div>
-      <button class="todo__delete todo-ip" type="button" disabled>
+      <input class="todo__checkbox todo-ip" type="checkbox" id="sel_all" disabled>
+      <label for="sel_all">Select all</label></div>
+      <button class="todo__delete todo-ip" type="button" id="del_complete" disabled>
         Delete completed
       </button>
     </div>
     <section class="todo__columns">
-        <button class="todo__column-title todo-ip" disabled>All</button>
-        <button class="todo__column-title todo-ip" disabled>Active</button>
-        <button class="todo__column-title todo-ip" disabled>Complete</button>
+        <button class="todo__column-title todo-ip todo__page--disabled" id="btn_all_tsk" disabled>All</button>
+        <button class="todo__column-title todo-ip todo__page--disabled" id="btn_active_tsk" disabled>Active</button>
+        <button class="todo__column-title todo-ip todo__page--disabled" id="btn_completed_tsk" disabled>Complete</button>
     </section>
+    <ul id="ch" class="todo__list">
+
+    </ul>
     <!-- <nav class="todo__pagination" aria-label="Pagination">
       <a class="todo__page todo__page--disabled todo-ip" href="#"><</a>
       <a class="todo__page todo__page--active todo-ip" href="#">1</a>
