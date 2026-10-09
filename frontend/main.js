@@ -34,7 +34,6 @@ const render = () => {
         setDisabledForTabs(true);
         removeStyleFromTabs();
     }
-
     let AllTasks = '';
     let calcPagination = 0;
     getFilteredTasks().forEach((task) => {
@@ -161,7 +160,6 @@ const onClickCheckboxTask = (idTagLi) => {
     const task = arrayTasks.find((task) => task.id === Number(idTagLi));
     task.isComplited = !task.isComplited;
     console.log(task);
-    render();
 };
 
 const onClickDeleteTask = (idTagLi) => {
