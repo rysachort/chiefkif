@@ -80,13 +80,19 @@
       height: 20px;
     }
 
-    .todo__delete {
-      height: 40px;
-      padding: 0 18px;
-      border-radius: 100px;
-      color: #d3d2d2;
-      cursor: not-allowed;
-    }
+.todo__delete {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 100px;
+  color: #d3d2d2;
+  cursor: pointer;
+}
+
+.todo__delete:disabled,
+.todo__checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
     .todo__columns {
       display: grid;
@@ -158,3 +164,17 @@
       background: rgba(255, 255, 255, 0.361);
       cursor: not-allowed;
     }
+
+.todo__column-title {
+  cursor: pointer;
+}
+
+.todo__column-title:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.todo__column-title.active {
+  background: rgba(255, 255, 255, 0.37);
+  border-color: rgba(255, 255, 255, 0.6);
+}

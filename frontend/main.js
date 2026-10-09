@@ -17,6 +17,7 @@ const DATA_ID = "data-id";
 const CHECKBOX = "checkbox";
 const BUTTON = "BUTTON";
 const CLASS_ACTIVE = "active";
+const buttonDeleteCompleted = document.getElementById('del_complete');
 
 let filterType = FILTER_ALL;
 
@@ -25,22 +26,51 @@ let arrayTasks = [];
 
 // вывод задач на страницу
 const render = () => {
+    updateControls();
     if (arrayTasks.length > 0) { // если добавляется первая задача то добавляем стили для кнопок фильтрации
-        setStyleForCurrentTab();
+        setDisabledForTabs(false); // кнопки кликабельни
+        setStyleForCurrentTab(); // подсветка текущего фильтра
     } else {
-
+        setDisabledForTabs(true);
+        removeStyleFromTabs();
     }
 
     let AllTasks = '';
-    arrayTasks.forEach((task) => {
+    let calcPagination = 0;
+    getFilteredTasks().forEach((task) => {
         const tag = `<li class="todo__item todo-ip" data-id="${task.id}">
-            <input class="todo__checkbox" type="checkbox">
+            <input class="todo__checkbox" type="checkbox" ${task.isComplited ? 'checked' : ''}>
             <span>${task.text}</span>
             <button class="todo__task-delete todo-ip" type="button">X</button>
         </li>`;
         AllTasks += tag;
+        calcPagination += 1;
+        console.log(calcPagination);
     });
     taskList.innerHTML = AllTasks;
+};
+
+// состояние чекбокса select all и кнопки delete comp
+const updateControls = () => {
+    const hasTasks = arrayTasks.length > 0;
+    const hasCompleted = arrayTasks.some((task) => task.isComplited);
+    const isAllCompleted = hasTasks && arrayTasks.every((task) => task.isComplited);
+
+    buttonSelectAllTasks.disabled = !hasTasks;
+    buttonSelectAllTasks.checked = isAllCompleted;
+    buttonDeleteCompleted.disabled = !hasCompleted;
+};
+
+// какие задачи показывать в зависимости от выбранного фильтра
+const getFilteredTasks = () => {
+    switch (filterType) {
+        case FILTER_ACTIVE:
+            return arrayTasks.filter((task) => !task.isComplited);
+        case FILTER_COMPLITED:
+            return arrayTasks.filter((task) => task.isComplited);
+        default:
+            return arrayTasks;
+    }
 };
 
 const setStyleForCurrentTab = () => {    //стили для кнопок фильтрации. если активна кнопка то она подсвечивается а остальные нет
@@ -61,6 +91,20 @@ const setStyleForCurrentTab = () => {    //стили для кнопок фил
             buttonComplitedTasks.classList.add(CLASS_ACTIVE);
             break;
     }
+};
+
+// блокируем или разблокируем кнопки фильтров
+const setDisabledForTabs = (isDisabled) => {
+    buttonAllTasks.disabled = isDisabled;
+    buttonActiveTasks.disabled = isDisabled;
+    buttonComplitedTasks.disabled = isDisabled;
+};
+
+// снимаем подсветку со всех кнопок
+const removeStyleFromTabs = () => {
+    buttonAllTasks.classList.remove(CLASS_ACTIVE);
+    buttonActiveTasks.classList.remove(CLASS_ACTIVE);
+    buttonComplitedTasks.classList.remove(CLASS_ACTIVE);
 };
 
 
@@ -123,7 +167,27 @@ const onClickCheckboxTask = (idTagLi) => {
 const onClickDeleteTask = (idTagLi) => {
     arrayTasks = arrayTasks.filter((task) => task.id !== Number(idTagLi));
     render();
-}
+};
+
+const onClickFilter = (type) => {
+    filterType = type;
+    render();
+};
+
+// "Select all": ставим всем задачам то же состояние, что у чекбокса
+const onChangeSelectAll = () => {
+    const isChecked = buttonSelectAllTasks.checked;
+    arrayTasks.forEach((task) => {
+        task.isComplited = isChecked;
+    });
+    render();
+};
+
+// "Delete completed": оставляем только невыполненные
+const onClickDeleteCompleted = () => {
+    arrayTasks = arrayTasks.filter((task) => !task.isComplited);
+    render();
+};
 
 // нажатие кнопки добавить
 buttonAddNewTask.addEventListener('click', ClickAddTask);
@@ -133,3 +197,10 @@ inputNewTask.addEventListener('keyup', onKeyUpInput);
 
 // нажатие на чекбокс или кнопку удалить
 taskList.addEventListener('click', onClickListTask);
+
+buttonAllTasks.addEventListener('click', () => onClickFilter(FILTER_ALL));
+buttonActiveTasks.addEventListener('click', () => onClickFilter(FILTER_ACTIVE));
+buttonComplitedTasks.addEventListener('click', () => onClickFilter(FILTER_COMPLITED));
+
+buttonSelectAllTasks.addEventListener('change', onChangeSelectAll);
+buttonDeleteCompleted.addEventListener('click', onClickDeleteCompleted);
