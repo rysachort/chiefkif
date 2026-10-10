@@ -6,6 +6,7 @@ const buttonSelectAllTasks = document.getElementById('sel_all');
 const buttonAllTasks = document.getElementById('btn_all_tsk');
 const buttonActiveTasks = document.getElementById('btn_active_tsk');
 const buttonComplitedTasks = document.getElementById('btn_completed_tsk');
+const paginationNav = document.querySelector('.todo__pagination');
 
 // список задач после кнопок фильтрации
 // document.querySelector('.todo__columns').after(allevents_div);
@@ -16,16 +17,22 @@ const ENTER = "Enter";
 const DATA_ID = "data-id";
 const CHECKBOX = "checkbox";
 const BUTTON = "BUTTON";
+const NAV = "NAV";
 const CLASS_ACTIVE = "active";
 const buttonDeleteCompleted = document.getElementById('del_complete');
+const countInOnePage = 5;
 
 let filterType = FILTER_ALL;
+
+let currentPage = 1;
+
 
 // массив
 let arrayTasks = [];
 
 // вывод задач на страницу
 const render = () => {
+
     updateControls();
     if (arrayTasks.length > 0) { // если добавляется первая задача то добавляем стили для кнопок фильтрации
         setDisabledForTabs(false); // кнопки кликабельни
@@ -34,9 +41,10 @@ const render = () => {
         setDisabledForTabs(true);
         removeStyleFromTabs();
     }
+    countTasks();
     let AllTasks = '';
     let calcPagination = 0;
-    getFilteredTasks().forEach((task) => {
+    startPage().forEach((task) => {
         const tag = `<li class="todo__item todo-ip" data-id="${task.id}">
             <input class="todo__checkbox" type="checkbox" ${task.isComplited ? 'checked' : ''}>
             <span>${task.text}</span>
@@ -44,9 +52,10 @@ const render = () => {
         </li>`;
         AllTasks += tag;
         calcPagination += 1;
-        console.log(calcPagination);
+        // console.log(calcPagination);
     });
     taskList.innerHTML = AllTasks;
+    howManyPages();
 };
 
 // состояние чекбокса select all и кнопки delete comp
@@ -70,6 +79,12 @@ const getFilteredTasks = () => {
         default:
             return arrayTasks;
     }
+};
+
+const countTasks = () => {
+    buttonAllTasks.textContent = `All(${arrayTasks.length})`;
+    buttonActiveTasks.textContent = `Active(${arrayTasks.filter((task) => !task.isComplited).length})`;
+    buttonComplitedTasks.textContent = `Complete(${arrayTasks.filter((task) => task.isComplited).length})`;
 };
 
 const setStyleForCurrentTab = () => {    //стили для кнопок фильтрации. если активна кнопка то она подсвечивается а остальные нет
@@ -108,7 +123,7 @@ const removeStyleFromTabs = () => {
 
 
 // нажатие на кнопку добавления
-const ClickAddTask = () => {
+const ClickAddTask = (event) => {
     event.preventDefault();
         const allevents_div_add = inputNewTask.value;
         inputNewTask.value = "";
@@ -132,6 +147,24 @@ const AddTaskObject = (addtask_input) => {
         isComplited: false
     })};
     resetToDefaultPreferens();
+};
+
+
+const howManyPages = () => {
+    let countPages = Math.ceil(getFilteredTasks().length / countInOnePage);
+    // console.log(countTasksInPage);
+    let divOneElement = "";
+    for(let i = 0; i < countPages; i++){
+        divOneElement += `<button class="todo__page todo-ip">${i + 1}</button>`;
+    }
+    paginationNav.innerHTML = divOneElement;
+
+};
+
+const startPage = () => {
+    const startPageNum = (currentPage - 1) * 5;
+    const endPageNum = startPageNum + countInOnePage;
+    return getFilteredTasks().slice(startPageNum, endPageNum);
 };
 
 // обработка клавиши ентер
@@ -160,6 +193,7 @@ const onClickCheckboxTask = (idTagLi) => {
     const task = arrayTasks.find((task) => task.id === Number(idTagLi));
     task.isComplited = !task.isComplited;
     console.log(task);
+    render();
 };
 
 const onClickDeleteTask = (idTagLi) => {
@@ -172,7 +206,7 @@ const onClickFilter = (type) => {
     render();
 };
 
-// "Select all": ставим всем задачам то же состояние, что у чекбокса
+//  ставим всем задачам то же состояние, что у чекбокса
 const onChangeSelectAll = () => {
     const isChecked = buttonSelectAllTasks.checked;
     arrayTasks.forEach((task) => {
@@ -181,10 +215,17 @@ const onChangeSelectAll = () => {
     render();
 };
 
-// "Delete completed": оставляем только невыполненные
+//  оставляем только невыполненные
 const onClickDeleteCompleted = () => {
     arrayTasks = arrayTasks.filter((task) => !task.isComplited);
     render();
+};
+
+const onClickChangePage = (event) => {
+    const {target: tag} = event;
+    if(tag.tagName === BUTTON){
+        console.log("kofgkd");
+    }
 };
 
 // нажатие кнопки добавить
@@ -202,3 +243,5 @@ buttonComplitedTasks.addEventListener('click', () => onClickFilter(FILTER_COMPLI
 
 buttonSelectAllTasks.addEventListener('change', onChangeSelectAll);
 buttonDeleteCompleted.addEventListener('click', onClickDeleteCompleted);
+
+paginationNav.addEventListener('click', onClickChangePage);
