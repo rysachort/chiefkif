@@ -224,8 +224,10 @@ const onClickDeleteCompleted = () => {
 const onClickChangePage = (event) => {
     const {target: tag} = event;
     if(tag.tagName === BUTTON){
-        console.log("kofgkd");
+        currentPage = Number(tag.innerHTML);
+        console.log(currentPage);
     }
+    render();
 };
 
 // нажатие кнопки добавить

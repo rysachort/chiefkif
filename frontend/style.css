@@ -149,6 +149,14 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
+      padding: 20px;
+      flex-wrap: wrap;
+      width: 500px;
+    }
+
+    .todo_box {
+      display: flex;
+      justify-content: center;
     }
 
     .todo__page {
@@ -157,10 +165,10 @@
       justify-content: center;
       width: 38px;
       height: 38px;
-      background: rgba(255, 255, 255, 0.37);
       color: #d3d2d2;
       text-decoration: none;
       border-radius: 100px;
+      cursor: pointer;
     }
 
     .todo__page--active {
