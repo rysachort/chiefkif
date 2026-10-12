@@ -162,7 +162,7 @@ const howManyPages = () => {
 };
 
 const startPage = () => {
-    const startPageNum = (currentPage - 1) * 5;
+    const startPageNum = (currentPage - 1) * countInOnePage;
     const endPageNum = startPageNum + countInOnePage;
     return getFilteredTasks().slice(startPageNum, endPageNum);
 };
